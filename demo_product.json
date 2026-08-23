@@ -1,0 +1,77 @@
+{
+  "identity": {
+    "uniqueProductId": "SGTIN-DEMO-000000000001",
+    "batchId": "BATCH-DEMO-2026-001",
+    "modelId": "GTIN-DEMO-0871234567890",
+    "hsCode": "610910",
+    "taricCode": "6109100010"
+  },
+
+  "product": {
+    "name": "Circular Knit Tee",
+    "brand": "Demo DPP",
+    "description": "Illustrative textile product used to demonstrate the Product → QR → Digital Product Passport data flow.",
+    "category": "T-shirts",
+    "pefcrCategory": "T-shirts",
+    "countryOfOrigin": "TR",
+    "weightKg": 0.22,
+    "robustnessScore": 82,
+    "recyclabilityScore": 78,
+    "environmentalFootprintPerformance": "B",
+    "euEcolabel": false,
+    "warrantyMonths": 24
+  },
+
+  "materials": [
+    {
+      "name": "Recycled polyester",
+      "percentage": 70
+    },
+    {
+      "name": "Cotton",
+      "percentage": 30
+    }
+  ],
+
+  "operators": {
+    "manufacturer": {
+      "id": "GLN-9501234500003",
+      "name": "DemoTex Manufacturing Ltd."
+    },
+
+    "importer": {
+      "id": "EORI-NL-DEMO-001",
+      "name": "Demo Apparel Import BV"
+    }
+  },
+
+  "circularity": {
+    "recycledContentPct": 70,
+    "recycledContentOriginType": "post-consumer",
+    "organicContentPct": 0,
+    "endOfLife": "Remove non-textile trims where feasible; route clean polyester-rich textile to an appropriate textile recycler."
+  },
+
+  "care": {
+    "careInstructions": "Wash at 30 °C; line dry; do not bleach.",
+    "repairInstructions": "Repair small seams with matching polyester thread.",
+    "safeUseInstructions": "No special safe-use instructions required for this demo product."
+  },
+
+  "verification": {
+    "status": "supplier_declared",
+    "dppCompletenessPct": 100,
+    "lastUpdated": "2026-08-23T07:43:00+02:00",
+    "schemaVersion": 1
+  },
+
+  "evidence": [
+    {
+      "type": "recycled_content_conformity",
+      "issuer": "Demo Certification Body",
+      "status": "supplier_declared",
+      "documentUrl": null,
+      "lastVerified": "2026-07-22"
+    }
+  ]
+}
