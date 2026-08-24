@@ -1,104 +1,96 @@
-import argparse
-import socket
-from pathlib import Path
+const os = require("os");
+const path = require("path");
+const QRCode = require("qrcode");
 
-import qrcode
+const UPI = "SGTIN-DEMO-000000000001";
 
+/**
+ * Get the machine's LAN IPv4 address.
+ * Falls back to 127.0.0.1 if none is found.
+ */
+function getLanIp() {
+    const interfaces = os.networkInterfaces();
 
-UPI = "SGTIN-DEMO-000000000001"
+    for (const name of Object.keys(interfaces)) {
+        for (const network of interfaces[name] || []) {
+            if (
+                network.family === "IPv4" &&
+                !network.internal
+            ) {
+                return network.address;
+            }
+        }
+    }
 
-
-def get_lan_ip():
-
-    sock = socket.socket(
-        socket.AF_INET,
-        socket.SOCK_DGRAM
-    )
-
-    try:
-
-        sock.connect(
-            ("8.8.8.8", 80)
-        )
-
-        return sock.getsockname()[0]
-
-    except Exception:
-
-        return "127.0.0.1"
-
-    finally:
-
-        sock.close()
+    return "127.0.0.1";
+}
 
 
-parser = argparse.ArgumentParser(
-    description=
-    "Generate Textile DPP QR code."
-)
+/**
+ * Parse command-line arguments.
+ *
+ * Supported:
+ * --base-url http://192.168.1.20:8000
+ * --output sample_product_qr.png
+ */
+function parseArgs() {
+    const args = process.argv.slice(2);
+
+    let baseUrl = null;
+    let output = "sample_product_qr.png";
+
+    for (let i = 0; i < args.length; i++) {
+        if (args[i] === "--base-url") {
+            baseUrl = args[i + 1];
+            i++;
+        }
+
+        else if (args[i] === "--output") {
+            output = args[i + 1];
+            i++;
+        }
+    }
+
+    return {
+        baseUrl,
+        output
+    };
+}
 
 
-parser.add_argument(
+async function main() {
+    const args = parseArgs();
 
-    "--base-url",
+    const baseUrl = (
+        args.baseUrl ||
+        `http://${getLanIp()}:8000`
+    ).replace(/\/+$/, "");
 
-    help=
-    "Example: http://192.168.1.20:8000"
+    const url =
+        `${baseUrl}/dpp/${UPI}`;
 
-)
+    await QRCode.toFile(
+        args.output,
+        url
+    );
 
+    console.log(
+        "QR target:",
+        url
+    );
 
-parser.add_argument(
-
-    "--output",
-
-    default=
-    "sample_product_qr.png"
-
-)
-
-
-args = parser.parse_args()
-
-
-base_url = (
-
-    args.base_url
-
-    or
-
-    f"http://{get_lan_ip()}:8000"
-
-).rstrip("/")
+    console.log(
+        "QR saved to:",
+        path.resolve(args.output)
+    );
+}
 
 
-url = (
+main().catch((error) => {
+    console.error(
+        "Error generating QR code:",
+        error
+    );
 
-    f"{base_url}"
-    f"/dpp/{UPI}"
-
-)
-
-
-qr = qrcode.make(
-    url
-)
-
-
-qr.save(
-    args.output
-)
-
-
-print(
-    "QR target:",
-    url
-)
-
-
-print(
-    "QR saved to:",
-    Path(
-        args.output
-    ).resolve()
-)
+    process.exit(1);
+});
