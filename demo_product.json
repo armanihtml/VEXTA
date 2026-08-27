@@ -1,3 +1,4 @@
+import { QRCodeSVG } from "qrcode.react";
 {
   "identity": {
     "uniqueProductId": "SGTIN-DEMO-000000000001",
@@ -64,6 +65,23 @@
     "lastUpdated": "2026-08-23T07:43:00+02:00",
     "schemaVersion": 1
   },
+
+export default function ProductQR({ productId }) {
+  const dppUrl =
+    `http://localhost:3000/dpp/${productId}`;
+
+  return (
+    <div>
+      <h3>Digital Product Passport QR</h3>
+
+      <QRCodeSVG
+        value={dppUrl}
+        size={180}
+      />
+
+      <p>{dppUrl}</p>
+    </div>
+  );
 
   "evidence": [
     {
