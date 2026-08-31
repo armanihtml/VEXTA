@@ -1,0 +1,213 @@
+{
+  "identity": {
+    "uniqueProductId": "SGTIN-DEMO-000000000001",
+    "batchId": "BATCH-DEMO-2026-001",
+    "modelId": "GTIN-DEMO-0871234567890",
+    "hsCode": "6104620000",
+    "taricCode": "6104620000"
+  },
+  "product": {
+    "name": "Sustainable Recycled Polyester Hoodie",
+    "brand": "Demo Textile Co.",
+    "description": "Premium eco-friendly hoodie made from 70% recycled polyester and 30% certified organic cotton. This product demonstrates full Digital Product Passport compliance with comprehensive material, care, and sustainability data.",
+    "category": "Jackets and blazers",
+    "pefcrCategory": "Outerwear and similar articles",
+    "countryOfOrigin": "TR",
+    "weightKg": 0.45,
+    "robustnessScore": 8.5,
+    "recyclabilityScore": 8.2,
+    "environmentalFootprintPerformance": "A",
+    "euEcolabel": "certified",
+    "warrantyMonths": 24
+  },
+  "materials": [
+    {
+      "name": "Recycled Polyester",
+      "percentage": 70,
+      "origin": "post-consumer",
+      "certificateStatus": "verified",
+      "certificateIssuer": "Global Recycled Standard (GRS)"
+    },
+    {
+      "name": "Organic Cotton",
+      "percentage": 30,
+      "origin": "organic_certified",
+      "certificateStatus": "verified",
+      "certificateIssuer": "GOTS (Global Organic Textile Standard)"
+    }
+  ],
+  "components": [
+    {
+      "ref": "COMP-BODY-01",
+      "name": "Main body fabric",
+      "specification": "Jersey knit, 240 gsm, recycled polyester/organic cotton blend"
+    },
+    {
+      "ref": "COMP-SLEEVES-01",
+      "name": "Sleeves",
+      "specification": "Jersey knit sleeves, matching composition, reinforced shoulder seams"
+    },
+    {
+      "ref": "COMP-HOOD-01",
+      "name": "Hood",
+      "specification": "Double-layered hood with drawstring, lined with organic cotton"
+    },
+    {
+      "ref": "COMP-CUFF-01",
+      "name": "Cuffs and waistband",
+      "specification": "Reinforced ribbed knit, 1x1 rib, 95% recycled polyester, 5% elastane"
+    },
+    {
+      "ref": "COMP-LABEL-01",
+      "name": "Care label",
+      "specification": "Woven polyester label with printed care symbols, securely attached"
+    },
+    {
+      "ref": "COMP-ZIP-01",
+      "name": "Front zipper",
+      "specification": "Coil zipper, YKK brand, metal slider, 65cm length"
+    }
+  ],
+  "manufacturingDetails": {
+    "manufacturingFacility": "Demo Textile Manufacturing Ltd.",
+    "manufacturingFacilityId": "FAC-DEMO-TR-001",
+    "manufacturingDate": "2026-07-15",
+    "manufacturingLocation": {
+      "country": "TR",
+      "region": "Izmir"
+    },
+    "importer": "Demo Imports Europe B.V.",
+    "importerId": "IMP-DEMO-NL-001",
+    "importingCountry": "NL"
+  },
+  "materialsComposition": {
+    "organicContentPct": 30,
+    "organicMaterialAmountKg": 0.135,
+    "recycledContentPct": 70,
+    "recycledMaterialAmountKg": 0.315,
+    "recycledContentOriginType": "post-consumer",
+    "weightExcludingTrimsKg": 0.42
+  },
+  "care": {
+    "careInstructions": "Wash at 30°C in gentle cycle; line dry in shade; do not bleach; tumble dry low if needed; iron at low temperature.",
+    "repairInstructions": "For small seams, use matching thread (polyester #40wt) and needle. For zippers, contact manufacturer. Small holes can be patched with matching fabric patch.",
+    "safeUseInstructions": "No special safety instructions required. Suitable for ages 12 and above. Not suitable for children under 3 due to drawstring."
+  },
+  "sustainabilityMetrics": {
+    "euEcolabelStatus": "certified",
+    "euEcolabelCertificateUrl": "https://example.invalid/eu-ecolabel-certificate.pdf",
+    "carbonFootprintKgCO2eq": 2.8,
+    "waterConsumptionLiters": 45,
+    "chemicalsPolicyUrl": "https://example.invalid/restricted-substances-list.pdf",
+    "sustainabilityCertifications": [
+      {
+        "name": "Global Recycled Standard (GRS)",
+        "certificateNumber": "GRS-DEMO-2026-001",
+        "issueDate": "2026-07-10",
+        "expiryDate": "2027-07-10",
+        "verificationStatus": "verified"
+      },
+      {
+        "name": "GOTS (Global Organic Textile Standard)",
+        "certificateNumber": "GOTS-DEMO-2026-002",
+        "issueDate": "2026-06-20",
+        "expiryDate": "2027-06-20",
+        "verificationStatus": "verified"
+      },
+      {
+        "name": "EU Ecolabel",
+        "certificateNumber": "EU-ECOLABEL-DEMO-001",
+        "issueDate": "2026-07-01",
+        "expiryDate": "2029-07-01",
+        "verificationStatus": "verified"
+      }
+    ]
+  },
+  "endOfLife": {
+    "disassemblyInstructions": "Remove non-textile trims (zipper, label) where feasible. Route clean polyester-rich textile to textile recycler. Zipper components to metal recycler.",
+    "recyclabilityInfo": "Approximately 95% of this garment is recyclable. Check local textile recycling programs for collection options.",
+    "designForRecyclingUrl": "https://example.invalid/design-for-recycling-report.pdf"
+  },
+  "qualityAssurance": {
+    "visualInspectionResult": 95,
+    "spiralityPct": 2.0,
+    "dimensionalChangePct": 3.0,
+    "testDate": "2026-07-20",
+    "testStandard": "ISO 15487 (shrinkage), ISO 16322-3 (dimensional stability), ISO 3759 (care label)"
+  },
+  "substancesOfConcern": [
+    {
+      "substanceName": "Lead (Pb)",
+      "location": "All components",
+      "concentrationPctWW": 0.0,
+      "restrictedStatus": "compliant"
+    },
+    {
+      "substanceName": "Cadmium (Cd)",
+      "location": "All components",
+      "concentrationPctWW": 0.0,
+      "restrictedStatus": "compliant"
+    },
+    {
+      "substanceName": "Phthalates (DEHP, BBP, DBP)",
+      "location": "All components",
+      "concentrationPctWW": 0.0,
+      "restrictedStatus": "compliant"
+    },
+    {
+      "substanceName": "Azo dyes",
+      "location": "Dyed components",
+      "concentrationPctWW": 0.0,
+      "restrictedStatus": "compliant"
+    },
+    {
+      "substanceName": "Formaldehyde",
+      "location": "All components",
+      "concentrationPctWW": 0.005,
+      "restrictedStatus": "compliant"
+    }
+  ],
+  "certificates": [
+    {
+      "type": "recycled_content_conformity",
+      "documentUrl": "https://example.invalid/demo-recycled-content-certificate.pdf",
+      "sourceIssuer": "Global Recycled Standard (GRS)",
+      "verificationStatus": "verified",
+      "lastVerified": "2026-07-22",
+      "notes": "GRS certification confirms 70% recycled content post-consumer origin"
+    },
+    {
+      "type": "organic_content_conformity",
+      "documentUrl": "https://example.invalid/demo-organic-content-certificate.pdf",
+      "sourceIssuer": "GOTS Certification Body",
+      "verificationStatus": "verified",
+      "lastVerified": "2026-07-20",
+      "notes": "GOTS certification for 30% organic cotton content"
+    },
+    {
+      "type": "eu_ecolabel",
+      "documentUrl": "https://example.invalid/eu-ecolabel-registration.pdf",
+      "sourceIssuer": "European Commission",
+      "verificationStatus": "verified",
+      "lastVerified": "2026-07-22",
+      "notes": "EU Ecolabel awarded for environmental performance"
+    },
+    {
+      "type": "restricted_substances",
+      "documentUrl": "https://example.invalid/restricted-substances-test-report.pdf",
+      "sourceIssuer": "Independent Testing Lab (DEMO-LAB-001)",
+      "verificationStatus": "verified",
+      "lastVerified": "2026-07-15",
+      "notes": "Test report confirms compliance with ZDHC Gateway level 3"
+    }
+  ],
+  "dataQuality": {
+    "completionPercentage": 98,
+    "lastUpdated": "2026-07-22T14:30:00Z",
+    "schemaVersion": 1,
+    "totalFieldsPopulated": 48,
+    "totalFieldsInSchema": 49,
+    "verificationStatus": "complete",
+    "verificationNotes": "All critical fields populated and validated. Missing optional field: brand secondary certification."
+  }
+}
