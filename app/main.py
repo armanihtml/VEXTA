@@ -1,15 +1,21 @@
 import json
+import io
 import os
 from pathlib import Path
 from typing import Any
 
 import httpx
+import qrcode
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import FileResponse, HTMLResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+
+from backend.dpp_datasheet import DPP_DATASHEET
 
 
 BASE = Path(__file__).resolve().parent
+FRONTEND = BASE.parent / "frontend"
 
 DEMO = json.loads(
     (BASE / "demo_product.json").read_text(encoding="utf-8")
@@ -30,6 +36,8 @@ app.add_middleware(
     allow_methods=["GET", "OPTIONS"],
     allow_headers=["*"],
 )
+
+app.mount("/static", StaticFiles(directory=FRONTEND), name="static")
 
 
 SUPABASE_URL = os.getenv("SUPABASE_URL", "").rstrip("/")
@@ -388,6 +396,22 @@ async def api_dpp(
     )
 
 
+# ---------------------------------------------
+# FULL DATASHEET API
+# ---------------------------------------------
+
+@app.get("/api/dpp/{unique_product_id}/datasheet")
+async def api_datasheet(
+    unique_product_id: str
+):
+    product = await load_public_dpp(unique_product_id)
+    return {
+        **DPP_DATASHEET,
+        "productId": unique_product_id,
+        "product": product,
+    }
+
+
 
 # ---------------------------------------------
 # QR TARGET API
@@ -431,6 +455,19 @@ async def qr_target(
         "url":
             target
     }
+
+
+@app.get("/api/dpp/{unique_product_id}/qr")
+async def qr_image(
+    unique_product_id: str,
+    request: Request
+):
+    target = (await qr_target(unique_product_id, request))["url"]
+    image = qrcode.make(target)
+    output = io.BytesIO()
+    image.save(output, format="PNG")
+    output.seek(0)
+    return Response(output.getvalue(), media_type="image/png")
 
 
 
@@ -1127,17 +1164,7 @@ async def root():
         ["uniqueProductId"]
     )
 
-    return {
-
-        "message":
-            "Textile DPP backend is running",
-
-        "demo":
-            f"/dpp/{demo_id}",
-
-        "json":
-            f"/api/dpp/{demo_id}",
-
-        "docs":
-            "/docs"
-    }
+    return FileResponse(
+        FRONTEND / "index.html",
+        headers={"X-Demo-Product": demo_id},
+    )

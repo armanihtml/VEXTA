@@ -1,96 +1,46 @@
-const os = require("os");
-const path = require("path");
-const QRCode = require("qrcode");
+"""Generate a QR code for the demo product passport."""
 
-const UPI = "SGTIN-DEMO-000000000001";
+import argparse
+import socket
+from pathlib import Path
 
-/**
- * Get the machine's LAN IPv4 address.
- * Falls back to 127.0.0.1 if none is found.
- */
-function getLanIp() {
-    const interfaces = os.networkInterfaces();
-
-    for (const name of Object.keys(interfaces)) {
-        for (const network of interfaces[name] || []) {
-            if (
-                network.family === "IPv4" &&
-                !network.internal
-            ) {
-                return network.address;
-            }
-        }
-    }
-
-    return "127.0.0.1";
-}
+import qrcode
 
 
-/**
- * Parse command-line arguments.
- *
- * Supported:
- * --base-url http://192.168.1.20:8000
- * --output sample_product_qr.png
- */
-function parseArgs() {
-    const args = process.argv.slice(2);
-
-    let baseUrl = null;
-    let output = "sample_product_qr.png";
-
-    for (let i = 0; i < args.length; i++) {
-        if (args[i] === "--base-url") {
-            baseUrl = args[i + 1];
-            i++;
-        }
-
-        else if (args[i] === "--output") {
-            output = args[i + 1];
-            i++;
-        }
-    }
-
-    return {
-        baseUrl,
-        output
-    };
-}
+UPI = "SGTIN-DEMO-000000000001"
 
 
-async function main() {
-    const args = parseArgs();
-
-    const baseUrl = (
-        args.baseUrl ||
-        `http://${getLanIp()}:8000`
-    ).replace(/\/+$/, "");
-
-    const url =
-        `${baseUrl}/dpp/${UPI}`;
-
-    await QRCode.toFile(
-        args.output,
-        url
-    );
-
-    console.log(
-        "QR target:",
-        url
-    );
-
-    console.log(
-        "QR saved to:",
-        path.resolve(args.output)
-    );
-}
+def get_lan_ip() -> str:
+    """Return the machine's LAN IPv4 address, or localhost as a fallback."""
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as connection:
+            connection.connect(("8.8.8.8", 80))
+            return connection.getsockname()[0]
+    except OSError:
+        return "127.0.0.1"
 
 
-main().catch((error) => {
-    console.error(
-        "Error generating QR code:",
-        error
-    );
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--base-url", help="Backend base URL")
+    parser.add_argument(
+        "--output",
+        default="sample_product_qr.png",
+        help="Output PNG path",
+    )
+    return parser.parse_args()
 
-    process.exit(1);
-});
+
+def main() -> None:
+    args = parse_args()
+    base_url = (args.base_url or f"http://{get_lan_ip()}:8000").rstrip("/")
+    url = f"{base_url}/dpp/{UPI}"
+
+    qrcode.make(url).save(args.output)
+
+    print("QR target:", url)
+    print("QR saved to:", Path(args.output).resolve())
+
+
+if __name__ == "__main__":
+    main()
