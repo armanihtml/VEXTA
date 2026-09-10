@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 import qrcode
+import httpx
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, HTMLResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -1159,7 +1160,12 @@ or 'Not provided'
 # ---------------------------------------------
 
 @app.get("/")
-async def root():
+def root():
+    return {"status": "running"}
+
+
+@app.get("/viewer", response_class=HTMLResponse)
+async def viewer():
 
     demo_id = (
         DEMO["identity"]
