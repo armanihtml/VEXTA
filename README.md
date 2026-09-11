@@ -39,6 +39,49 @@ uvicorn app.main:app --reload --port 8000
 
 Open `http://localhost:8000`. The bundled demo record is loaded automatically when Supabase credentials are not configured.
 
+## Deploy to Cloudflare Pages
+
+This project uses a static Next.js export for the frontend and Cloudflare Pages
+Functions for the two public DPP API routes. The Pages Functions keep these URLs
+unchanged:
+
+- `/api/dpp/{unique_product_id}`
+- `/api/dpp/{unique_product_id}/datasheet`
+
+### Cloudflare dashboard settings
+
+Connect the GitHub repository to Cloudflare Pages with these settings:
+
+| Setting | Value |
+| --- | --- |
+| Framework preset | Next.js (Static HTML Export) |
+| Build command | `npm run build` |
+| Build output directory | `out` |
+| Root directory | `/` |
+
+Cloudflare automatically deploys the `functions/` directory alongside the
+generated `out/` directory. No Python runtime is required for the public viewer
+or its demo API routes.
+
+### Deploy from the terminal
+
+Authenticate Wrangler once, then create or select a Pages project and deploy:
+
+```bash
+npx wrangler login
+npm run pages:deploy -- --project-name vexta
+```
+
+For local Pages behavior, build first and run:
+
+```bash
+npm run build
+npm run pages:dev
+```
+
+The `functions/` directory is intentionally separate from `app/` because Next
+static export does not bundle Next.js route handlers into Cloudflare Pages.
+
 ## API Endpoints
 
 ### Products

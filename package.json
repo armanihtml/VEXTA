@@ -6,11 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pages:dev": "wrangler pages dev out",
+    "pages:deploy": "npm run build && wrangler pages deploy out"
   },
   "dependencies": {
     "next": "15.5.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.35.0"
   }
 }
