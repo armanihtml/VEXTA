@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A verifiable digital product passport for textile products.">
+  <title>VEXTA | Digital Product Passport</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="wordmark" href="/" aria-label="VEXTA home"><span>V</span>EXTA</a>
+    <div class="topbar-controls"><span class="access-pill public">Public</span><span class="access-pill business">Business</span><span class="topbar-status"><i></i> Passport viewer</span></div>
+  </header>
+  <main class="shell">
+    <section class="hero">
+      <div><p class="kicker">Digital product passport</p><h1>Know what<br><em>you wear.</em></h1><p class="hero-copy">One product, one record. Explore the materials, makers, care and circular path behind this garment.</p></div>
+      <div class="record-mark" aria-hidden="true"><span>VXT</span><small>TRACEABLE<br>TEXTILES</small></div>
+    </section>
+    <section class="lookup panel"><label for="product-id">Open a product record</label><div class="lookup-row"><input id="product-id" autocomplete="off" spellcheck="false" placeholder="Enter a unique product ID"><button id="load-product" type="button">View passport <span aria-hidden="true">&rarr;</span></button></div><p id="lookup-error" class="error" role="alert"></p><button id="load-demo" class="text-button" type="button">Use the demo passport</button></section>
+    <div id="loading" class="loading" hidden>Loading record...</div>
+    <div id="passport" hidden></div>
+    <section id="datasheet" class="datasheet panel" hidden></section>
+  </main>
+  <nav class="mobile-nav" aria-label="Primary navigation">
+    <a class="active" href="#passport"><span aria-hidden="true">P</span>Passport</a>
+    <a href="#passport"><span aria-hidden="true">V</span>Ve</a>
+    <a href="#export"><span aria-hidden="true">E</span>Ex</a>
+    <a href="#traceability"><span aria-hidden="true">T</span>Ta</a>
+    <a href="#docs"><span aria-hidden="true">D</span>Docs</a>
+  </nav>
+  <script src="/static/app.js"></script>
+</body>
+</html>
