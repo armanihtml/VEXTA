@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-const demoId = 'SGTIN-DEMO-000000000001';
+import QRCode from 'qrcode';
+import { demoId, demoPassports } from './lib/demo-ids';
 
 function Value({ label, children }) {
   return <div className="value"><span>{label}</span><strong>{children || 'Not declared'}</strong></div>;
@@ -39,7 +39,24 @@ export default function Home() {
     }
   }
 
-  useEffect(() => { loadProduct(demoId); }, []);
+  async function downloadQrCode() {
+    const passportUrl = new URL('/', window.location.origin);
+    passportUrl.searchParams.set('id', identity.uniqueProductId);
+    const dataUrl = await QRCode.toDataURL(passportUrl.toString(), {
+      errorCorrectionLevel: 'M',
+      margin: 2,
+      width: 720,
+    });
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = `${identity.uniqueProductId}-qr-code.png`;
+    link.click();
+  }
+
+  useEffect(() => {
+    const queryId = new URLSearchParams(window.location.search).get('id');
+    loadProduct(queryId || demoId);
+  }, []);
 
   const completeness = product?.verification?.dppCompletenessPct || 0;
   const identity = product?.identity;
@@ -62,6 +79,7 @@ export default function Home() {
         <div className="lookup-row"><input id="product-id" value={id} onChange={event => setId(event.target.value)} onKeyDown={event => event.key === 'Enter' && loadProduct()} placeholder="Enter a unique product ID" /><button onClick={() => loadProduct()}>View passport <span>→</span></button></div>
         {error && <p className="error">{error}</p>}
         <button className="demo-link" onClick={() => { setId(demoId); loadProduct(demoId); }}>Use the demo passport</button>
+        <div className="demo-options"><span>Try another demo:</span>{demoPassports.slice(1).map(passport => <button key={passport.id} onClick={() => { setId(passport.id); loadProduct(passport.id); }}>{passport.label}</button>)}</div>
       </section>
 
       {loading && <p className="loading">Loading record...</p>}
@@ -80,7 +98,7 @@ export default function Home() {
 
         <section className="section traceability" id="traceability"><div className="section-heading"><div><p className="eyebrow">Supply chain record</p><h2>Trace depth: Tier 2 verified</h2><p>Chronological tracking data for this manifest.</p></div><Pill tone="orange">AUTHORITY</Pill></div><div className="timeline">{[['Retail sale', 'Amsterdam, NL', 'May 2026', 'Active'], ['Distribution hub', 'Rotterdam, NL', 'April 2026', 'Verified'], ['Customs clearance', 'Port of Rotterdam', 'March 2026', 'Cleared'], ['Manufacturing', details.countryOfOrigin, 'February 2026', 'Verified'], ['Fiber composition', details.category, 'Source record', 'Document-backed']].map(([title, place, date, status]) => <article key={title}><i /><div><div className="timeline-head"><div><h3>{title}</h3><p>{place} · {date}</p></div><Pill>{status}</Pill></div><Value label={title === 'Manufacturing' ? 'Manufacturer' : 'Record reference'}>{title === 'Manufacturing' ? product.operators.manufacturer.name : identity.uniqueProductId}</Value></div></article>)}</div></section>
 
-        <section className="section export" id="export"><div className="section-heading"><div><p className="eyebrow">Authority workflow</p><h2>Export clearance</h2></div></div><div className="export-grid"><article className="clearance"><div>✓</div><h3>Ready for clearance</h3><p>STATUS: YES</p><button onClick={() => { const blob = new Blob([JSON.stringify(product, null, 2)], { type: 'application/json' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `${identity.uniqueProductId}-clearance.json`; link.click(); }}>Download JSON bundle ↓</button></article><article className="manifest white-card"><h3>Critical manifest data</h3><Value label="Commodity code">{identity.hsCode} (TARIC: {identity.taricCode})</Value><Value label="Origin">{details.countryOfOrigin}</Value><Value label="Importer">{product.operators.importer.name}</Value><Value label="Net mass">{details.weightKg} kg</Value></article></div></section>
+        <section className="section export" id="export"><div className="section-heading"><div><p className="eyebrow">Authority workflow</p><h2>Export clearance</h2></div></div><div className="export-grid"><article className="clearance"><div>✓</div><h3>Ready for clearance</h3><p>STATUS: YES</p><button onClick={downloadQrCode}>Download QR-Code</button></article><article className="manifest white-card"><h3>Critical manifest data</h3><Value label="Commodity code">{identity.hsCode} (TARIC: {identity.taricCode})</Value><Value label="Origin">{details.countryOfOrigin}</Value><Value label="Importer">{product.operators.importer.name}</Value><Value label="Net mass">{details.weightKg} kg</Value></article></div></section>
 
         <section className="section docs" id="docs"><div className="section-heading"><div><p className="eyebrow">Evidence archive</p><h2>Compliance manifest</h2></div><Pill tone="outline">{evidence.length + 4} ITEMS</Pill></div><div className="documents">{['GOTS Organic Textile Standard', 'OEKO-TEX Standard 100', 'Chemical Compliance Test Report', 'EU Declaration of Conformity', 'Recycled Content Evidence'].map((name, index) => <article key={name}><div><h3>{name}</h3><p>Issuer: {index === 4 ? evidence[0]?.issuer : ['Control Union', 'Hohenstein', 'SGS', 'Internal Compliance'][index]}</p></div><Pill tone={index === 2 ? 'amber' : 'green'}>{index === 2 ? 'EXPIRING SOON' : 'ACTIVE'}</Pill></article>)}</div></section>
 
